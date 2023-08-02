@@ -1,0 +1,15 @@
+{
+    "name": "Furitasi - Add Furigana on text (YDN JLP API sample)",
+    "description": "hello world",
+    "version": "1.0",
+    "manifest_version": 3,
+    "icons": {
+	"16": "icon-16.png"
+    },
+    "content_scripts": [
+	{
+	    "matches": ["https://*.yahoo.co.jp/*"],
+	    "js": ["content-script.js"]
+	}
+    ]
+}
