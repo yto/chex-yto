@@ -3,9 +3,14 @@
     "description": "results of yahoo! realtime search to JSON, TSV or plain text",
     "version": "1.0",
     "manifest_version": 3,
-    "permissions": ["activeTab", "scripting"],
-    "action": {
-	"default_popup": "popup.html",
-	"default_icon": "icon-16.png"
-    }
+    "icons": {
+	"16": "icon-16.png"
+    },
+    "content_scripts": [
+	{
+	    "matches": ["https://search.yahoo.co.jp/*"],
+	    "js": ["content-script.js"]
+	}
+    ]
+
 }
