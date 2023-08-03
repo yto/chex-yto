@@ -7,6 +7,7 @@ function main() {
     copy_btn.style.position = "fixed";
     copy_btn.style.top = "0";
     copy_btn.style.zIndex = 10001;
+    copy_btn.style.cursor = 'pointer';
     document.querySelector("noscript").before(copy_btn);
     
     let tsv_btn = document.createElement('button');
@@ -15,6 +16,7 @@ function main() {
     tsv_btn.style.position = "fixed";
     tsv_btn.style.top = "1.8rem";
     tsv_btn.style.zIndex = 10001;
+    tsv_btn.style.cursor = 'pointer';
     document.querySelector("noscript").before(tsv_btn);
 
     let text_btn = document.createElement('button');
@@ -23,6 +25,7 @@ function main() {
     text_btn.style.position = "fixed";
     text_btn.style.top = "3.6rem";
     text_btn.style.zIndex = 10001;
+    text_btn.style.cursor = 'pointer';
     document.querySelector("noscript").before(text_btn);
 
     let disp_num = document.createElement('span');
@@ -34,6 +37,7 @@ function main() {
     disp_num.style.color = "gray";
     disp_num.style.fontWeight = "bold";
     disp_num.style.fontSize = "small";
+    disp_num.style.cursor = 'pointer';
     document.querySelector("noscript").before(disp_num);
     disp_num.onclick = () => show_viewwindow();
 };

@@ -44,6 +44,7 @@ document.onmouseup = function() {
     btn.id = "button_selected_text";
     btn.style.padding = "0 0.5em";
     btn.style.backgroundColor = "red";
+    btn.style.cursor = 'pointer';
     btn.onclick = (event) => proc_selection();
     selected_text.after(btn);
 };
