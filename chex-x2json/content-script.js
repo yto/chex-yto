@@ -73,28 +73,43 @@ function conv_and_copy(fmt) {
     str_to_clipboard = copy_str;
 }
 
+
 document.onscroll = function() {
     console.log("X to JSON working...");
 
     const posts = Array.from(
-	document.querySelectorAll("div[data-testid=cellInnerDiv] div.r-kzbkwu.r-1iusvr4")
+	document.querySelectorAll("article[data-testid=tweet] div.r-kzbkwu.r-1iusvr4")
     ).filter(
-	e => e.children[0].querySelector("a[dir=ltr]")
+	e => e.querySelector("a[dir=ltr] > time")
     ).forEach(
 	e => {
 	    let path = e.children[0].querySelector("a[dir=ltr]").getAttribute("href");
 	    let [_all, scname, tid] = path.match(/\/([^\/]+)\/status\/([0-9]+)$/);
 	    let name = e.children[0].querySelector("div[dir=ltr] span.r-1tl8opc").textContent;
 	    const datetime = e.children[0].querySelector("time").getAttribute("datetime");
-	    const post = Array.from(e.childNodes).slice(1, e.childElementCount - 1).map(x => {
+	    const parts = Array.from(e.childNodes).slice(1, e.childElementCount - 1).map(x => {
 		let s = x.innerText;
-		// "返信先: \n@ohga_pharmacy\nさん"
-		s = s.replace(/^返信先: \n(@.+?)\nさん$/, '$1');
-		// "引用ツイート\ncarolis\n@bebaaguax\n·\n2021年6月1日\n"
-		s = s.replace(/^引用ツイート\n.+?\n(@.+?)\n·\n[0-9].+?\n/, 'RT $1\n');
+		if (x.getAttribute("aria-labelledby")) { // 特殊表示
+		    if (s.search(/引用ツイート/) == 0) {
+			// "引用ツイート\ncarolis\n@bebaaguax\n·\n2021年6月1日\n"
+			s = s.replace(/^引用ツイート\n.+?\n(@.+?)\n·\n[0-9].+?\n/, 'RT $1\n');
+		    } else if (x.querySelector("div[data-testid='card.wrapper']")) { // CARD
+			let lk = x.querySelector("div[data-testid='card.wrapper'] > div > a");
+			if (lk && lk.getAttribute("href"))
+			    s = lk.getAttribute("href");
+		    } else if (x.querySelector("div[data-testid=tweetPhoto]")) { // media
+			s = "";
+		    } else {
+			console.log("unknown_case:[" + s + "]");
+			s = "";
+		    }
+		} else {
+		    // "返信先: \n@ohga_pharmacy\nさん"
+		    s = s.replace(/^返信先: \n(@.+?)\nさん$/, '$1');
+		}
 		return s;
-	    }).join("\n");
-	    
+	    });
+	    const post = parts.filter(x => x.length).join("\n");
 	    if (tid in posts_store == false)
 		posts_store[tid] = {
 		    'tid': tid,
@@ -105,7 +120,7 @@ document.onscroll = function() {
 		};
 	}
     );
-    
+
     // 保存された件数の表示
     document.getElementById('num_of_items').innerHTML = Object.keys(posts_store).length;
 };
