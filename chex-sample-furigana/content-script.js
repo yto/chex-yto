@@ -1,10 +1,13 @@
 const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
 async function yapifuri(query) {
-    const url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana" + "?appid=" + encodeURIComponent(APPID);
+    const url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana?appid=" + encodeURIComponent(APPID);
     const res = await fetch(url, {
-        method: 'POST', header: {'Content-Type': 'application/json'}, mode: 'cors',
+        method: 'POST',
+        mode: 'cors',
         body: JSON.stringify({
-            "id": "A123", "jsonrpc" : "2.0", "method" : "jlp.furiganaservice.furigana",
+            "id": "A123",
+            "jsonrpc" : "2.0",
+            "method" : "jlp.furiganaservice.furigana",
             "params" : { "q" : query, "grade" : 1 }
         }),
     });
@@ -15,12 +18,12 @@ async function proc_selection() {
     const e = document.querySelector("#selected_text");
     if (! e) return;
     e.innerHTML = e.innerHTML.replace(/<rt>.*?<\/rt>/g,'');
-    let j = await yapifuri(e.textContent);
-    if (! j['result']['word']) return;
-    e.innerHTML = j['result']['word'].map(x =>
-        x['furigana'] ?
-            "<ruby>" + x['surface'] + "<rt>" + x['furigana'] + "</rt></ruby>" :
-            x['surface']
+    const j = await yapifuri(e.textContent);
+    if (! j.result.word) return;
+    e.innerHTML = j.result.word.map(x =>
+        x.furigana ?
+            `<ruby>${x.surface}<rt>${x.furigana}</rt></ruby>` :
+            x.surface
     ).join("");
     unwrap_selection();
 }
