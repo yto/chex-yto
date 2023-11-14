@@ -1,11 +1,8 @@
 {
     "name": "Furitasi - Add Furigana to Japanese text",
-    "description": "YDN WebAPI Sample Program",
+    "description": "Web API Sample Program",
     "version": "1.0",
     "manifest_version": 3,
-    "icons": {
-        "16": "icon-16.png"
-    },
     "content_scripts": [
         {
             "matches": ["https://*.yahoo.co.jp/*"],
