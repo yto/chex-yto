@@ -1,0 +1,16 @@
+{
+    "name": "X to JSON",
+    "description": "results of X search to JSON, TSV or plain text",
+    "version": "1.0",
+    "manifest_version": 3,
+    "icons": {
+	"16": "icon-16.png"
+    },
+    "content_scripts": [
+	{
+	    "matches": ["https://twitter.com/*"],
+	    "js": ["content-script.js"]
+	}
+    ]
+
+}

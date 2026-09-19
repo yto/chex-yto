@@ -1,3 +1,11 @@
+document.onmouseup = async function() {
+    const selected_text = window.getSelection().toString();
+    if (! selected_text) return;
+    const j = await yapikp(selected_text);
+    const s = j['result']['phrases'].map(x => x['text']).join(" / ");
+    if (! s.length) return;
+    alert(s);
+};
 const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
 async function yapikp(query) {
     const url = "https://jlp.yahooapis.jp/KeyphraseService/V2/extract" + "?appid=" + encodeURIComponent(APPID);
@@ -13,12 +21,3 @@ async function yapikp(query) {
     });
     return res.json();
 }
-
-document.onmouseup = async function() {
-    const selected_text = window.getSelection().toString();
-    if (! selected_text) return;
-    const j = await yapikp(selected_text);
-    const s = j['result']['phrases'].map(x => x['text']).join(" / ");
-    if (! s.length) return;
-    alert(s);
-};
